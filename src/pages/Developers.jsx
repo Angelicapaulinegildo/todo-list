@@ -5,28 +5,28 @@ export default function Developers() {
       name: 'Angelica Pauline M. Gildo', 
       role: 'Lead Developer', 
       desc: 'Built the overall layout and wrote the JavaScript logic.',
-      image: 'public/gildo.png', 
+      image: 'images/gildo.png', 
       link: 'https://portfolio-gildo.vercel.app/'
     },
     { 
       name: 'Anica C. Cosares', 
       role: 'UI/UX Designer', 
       desc: 'Designed the cards, buttons, and color scheme.',
-      image: 'public/cosares.png',
+      image: 'images/cosares.png',
       link: 'https://anica-portfolio.vercel.app/'
     },
     { 
       name: 'Jeanzen D. Esquillo', 
       role: 'Frontend Developer', 
       desc: 'Handled the responsiveness for mobile and tablet devices.',
-      image: 'public/esquillo.png', 
+      image: 'images/esquillo.png', 
       link: 'https://esqullio-portfolio.vercel.app/'
     },
     { 
       name: 'Neilyn M. Cenizal', 
       role: 'QA / Documentation', 
       desc: 'Tested all the buttons and wrote the User Guide.',
-      image: 'public/cenizal.png',
+      image: 'images/cenizal.png',
       link: 'https://website-inky-nine-82.vercel.app/'
     }
   ];
