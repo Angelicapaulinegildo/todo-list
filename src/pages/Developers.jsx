@@ -1,36 +1,43 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 export default function Developers() {
-  const team = [
+  const [devs, setDevs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const localTeamData = [
     {
-      id: 1,
       firstName: 'Angelica Pauline',
       lastName: 'Gildo',
-      email: 'angelicapauline.gildo@cvsu.edu.ph', 
+      username: 'angelica', 
+      email: 'angelicapauline.gildo@cvsu.edu.ph',
       role: 'Lead Developer',
       image: '/images/gildo.png', 
       link: 'https://portfolio-gildo.vercel.app/' 
     },
     {
-      id: 2,
       firstName: 'Anica',
       lastName: 'Cosares',
+      username: 'anica',
       email: 'anica.cosares@cvsu.edu.ph',
       role: 'UI/UX Designer',
       image: '/images/cosares.png',
       link: 'https://anica-portfolio.vercel.app/'
     },
     {
-      id: 3,
       firstName: 'Jeanzen',
       lastName: 'Esquillo',
+      username: 'jeanzen',
       email: 'jeanzen.esquillo@cvsu.edu.ph',
       role: 'Frontend Developer',
       image: '/images/esquillo.png',
       link: 'https://esqullio-portfolio.vercel.app/'
     },
     {
-      id: 4,
       firstName: 'Neilyn',
       lastName: 'Cenizal',
+      username: 'neilynl',
       email: 'neilyn.cenizal@cvsu.edu.ph',
       role: 'QA / Documentation',
       image: '/images/cenizal.png',
@@ -38,13 +45,50 @@ export default function Developers() {
     }
   ];
 
+  useEffect(() => {
+    // Axios at DummyJSON
+    axios.get('https://dummyjson.com/users?limit=4')
+      .then(res => {
+        // localTeamData, apiUsers, at combineddata
+        const apiUsers = res.data.users;
+        const combinedData = localTeamData.map((teamMember, index) => {
+          return {
+            ...teamMember,
+            id: apiUsers[index].id,
+            apiEmail: apiUsers[index].email 
+          };
+        });
+        
+        setDevs(combinedData);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError('Error fetching developers from API. Please check your connection.');
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return (
+    <div className="text-center p-10 font-bold text-navy text-xl">
+      Loading Developers...
+    </div>
+  );
+
+  if (error) return (
+    <div className="text-center p-10 text-red-500 font-bold">
+      {error}
+      <br />
+      <Link to="/" className="text-navy underline mt-4 inline-block">Back to Dashboard</Link>
+    </div>
+  );
+
   return (
     <div>
       <h1 className="text-2xl mb-2 font-serif">Developers</h1>
       <p className="text-muted mb-6">The team behind this ToDoList application.</p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {team.map(dev => (
+        {devs.map((dev) => (
           <div key={dev.id} className="bg-white border border-border p-6 rounded-xl flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
             
             {/* Picture */}
@@ -54,14 +98,15 @@ export default function Developers() {
               className="w-24 h-24 rounded-full mb-4 border-2 border-navy object-cover shadow-sm" 
             />
             
-            {/* Name & Role */}
+            {/* Pangalan Galing sa localTeamData */}
             <h2 className="text-xl font-serif text-ink">{dev.firstName} {dev.lastName}</h2>
-            <p className="text-xs font-semibold text-navy uppercase tracking-wider mt-1 mb-3">{dev.role}</p>
             
-            {/* Email & Username */}
-            <div className="text-sm text-muted space-y-1 mb-4">
-              <p>{dev.email}</p>
-            </div>
+            {/* ROLE */}
+            <p className="text-xs font-semibold text-navy uppercase tracking-wider mt-1 mb-2">{dev.role}</p>
+            
+            {/* USERNAME AT EMAIL */}
+            <p className="text-sm font-semibold text-gray-500 mb-1">@{dev.username}</p>
+            <p className="text-sm text-muted mb-4">{dev.email}</p>
 
             {/* Link Button */}
             <a 
@@ -75,9 +120,14 @@ export default function Developers() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </a>
-            
           </div>
         ))}
+      </div>
+
+      <div className="mt-8 text-center">
+        <Link to="/" className="inline-block bg-navy text-paper px-6 py-2.5 rounded-lg font-semibold hover:bg-opacity-90 transition">
+          Return to Dashboard
+        </Link>
       </div>
     </div>
   );
