@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useTodo } from '../context/TodoContext';
+import useTodoStore from '../store/useTodoStore';
 
 export default function GroupTasks() {
   const { groupId } = useParams();
   // Kinukuha natin ang editTask at clearCompleted
-  const { groups, tasks, addTask, toggleTask, editTask, deleteTask, clearCompleted } = useTodo();
+  const { groups, tasks, addTask, toggleTask, editTask, deleteTask, clearCompleted } = useTodoStore();
   
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [filter, setFilter] = useState('all');

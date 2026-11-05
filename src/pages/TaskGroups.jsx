@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useTodo } from '../context/TodoContext';
+import useTodoStore from '../store/useTodoStore';
 import { Link } from 'react-router-dom';
 
 export default function TaskGroups() {
-  const { groups, tasks, addGroup, deleteGroup } = useTodo();
+  const { groups, tasks, addGroup, deleteGroup } = useTodoStore();
   const [newGroupName, setNewGroupName] = useState('');
 
   const handleCreate = () => {

@@ -1,9 +1,30 @@
-import { useTodo } from '../context/TodoContext';
+import { useState, useEffect } from 'react';
+import useTodoStore from '../store/useTodoStore'; // <-- TINANGGAL KO YUNG { }
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Dashboard() {
-  const { tasks, groups } = useTodo();
+  // Zustand State
+  const { tasks, groups } = useTodoStore();
   
+  // Axios State para sa User
+  const [userData, setUserData] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  // Fetch ng user pagka-load ng page
+  useEffect(() => {
+    axios.get('https://dummyjson.com/users/3')
+      .then(res => {
+        setUserData(res.data);
+        setLoadingUser(false);
+      })
+      .catch(err => {
+        console.error("Error fetching user:", err);
+        setLoadingUser(false);
+      });
+  }, []);
+
+  // Stats
   const total = tasks.length;
   const done = tasks.filter(t => t.done).length;
   const pending = total - done;
@@ -13,9 +34,28 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Hero */}
-      <div className="bg-navy text-paper p-6 md:p-10 rounded-xl shadow-md">
-        <h1 className="text-2xl md:text-3xl mb-2">Welcome back!</h1>
+      {/* Hero Section */}
+      <div className="bg-navy text-paper p-6 md:p-10 rounded-xl shadow-md relative overflow-hidden">
+        
+        {/* User Profile galing sa API */}
+        {!loadingUser && userData && (
+          <div className="flex items-center gap-3 mb-4">
+            <img 
+              src={userData.image} 
+              alt={userData.firstName} 
+              className="w-12 h-12 rounded-full border-2 border-paper shadow-sm bg-white"
+            />
+            <div>
+              <p className="text-sm font-semibold text-[#D3DCE6]">Logged in as (Dummy API):</p>
+              <p className="text-lg font-bold text-paper">{userData.firstName} {userData.lastName}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Dynamic Welcome Message */}
+        <h1 className="text-2xl md:text-3xl mb-2">
+          Welcome back{userData ? `, ${userData.firstName}` : ''}!
+        </h1>
         <p className="text-[#D3DCE6] mb-6 max-w-xl">Organize your day, one task at a time. Everything you add is saved automatically in your browser.</p>
         <Link to="/groups" className="inline-flex bg-paper text-navy px-5 py-3 rounded-lg font-semibold hover:bg-white transition-colors">
           Go to Task Groups
