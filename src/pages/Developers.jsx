@@ -123,12 +123,6 @@ export default function Developers() {
           </div>
         ))}
       </div>
-
-      <div className="mt-8 text-center">
-        <Link to="/" className="inline-block bg-navy text-paper px-6 py-2.5 rounded-lg font-semibold hover:bg-opacity-90 transition">
-          Return to Dashboard
-        </Link>
-      </div>
     </div>
   );
 }
