@@ -26,7 +26,7 @@ function Layout() {
   const navLinks = [
     { to: '/', label: 'Dashboard', icon: <IconHome /> },
     { to: '/groups', label: 'Task Groups', icon: <IconFolder /> },
-    { to: '/users', label: 'Users API', icon: <IconUsers /> }, // users api link
+    { to: '/users', label: 'Users API', icon: <IconUsers /> }, 
     { to: '/guide', label: 'User Guide', icon: <IconBook /> },
     { to: '/developers', label: 'Developers', icon: <IconUsers /> },
   ];
@@ -92,7 +92,7 @@ export default function App() {
         <Route index element={<Dashboard />} />
         <Route path="groups" element={<TaskGroups />} />
         <Route path="groups/:groupId" element={<GroupTasks />} />
-        <Route path="users" element={<Users />} /> {/* BAGONG ROUTE */}
+        <Route path="users" element={<Users />} /> 
         <Route path="guide" element={<UserGuide />} />
         <Route path="developers" element={<Developers />} />
       </Route>
